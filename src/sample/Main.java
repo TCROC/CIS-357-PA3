@@ -21,6 +21,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -67,6 +68,9 @@ public class Main extends Application {
         itemsPane.prefHeightProperty().bind(rootPane.heightProperty());
 
         Scene scene = new Scene(rootPane, 1000, 600);
+
+        initHotKeys(scene);
+
         primaryStage.setTitle("Stock Manager");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -76,6 +80,18 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Sets up the standard hot keys for the scene provided.
+     * @param scene The scene to set up the hot keys for.
+     */
+    public void initHotKeys(Scene scene){
+        // Sets up the hot keys / short cuts
+        scene.setOnKeyPressed(i -> {
+            if (i.isControlDown() && i.getCode() == KeyCode.A){
+                drawAddItemWindow(stockManager);
+            }
+        });
+    }
 
     public void drawItemsPain(String sortOrder){
         switch (sortOrder){
