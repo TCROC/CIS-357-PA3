@@ -1,6 +1,6 @@
 /**
  * Note: Please refer to the separate pdf document for requirements met.
- *       Other classes still say the requirements they meet from PA2 because they were reused in PA3 but can be ignored.
+ *       Other classes still say the requirements they meet from PA2 because they were reused in PA3, but can be ignored.
  *
  * Properties:
  * default Stage secondaryWindow: this any window drawn besides the main window.
@@ -48,7 +48,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        infoImage = new Image(new File("Icons/baseline_info_black_48dp.png").toURI().toString());
+        infoImage = new Image(ClassLoader.getSystemResource("baseline_info_black_48dp.png").toURI().toString());
 
         stockManager = new StockManager();
         Pane rootPane = new Pane();
