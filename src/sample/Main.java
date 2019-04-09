@@ -1,4 +1,6 @@
 /**
+ * Note: Please refer to the separate pdf document for requirements met.
+ *       Other classes still say the requirements they meet from PA2 because they were reused in PA3 but can be ignored.
  *
  * Properties:
  * default Stage secondaryWindow: this any window drawn besides the main window.
