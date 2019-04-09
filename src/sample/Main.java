@@ -55,9 +55,11 @@ public class Main extends Application {
 
         VBox mainVerticalPanel = new VBox();
 
+        AddItemHandler addItemHandler = new AddItemHandler(this);
+
         ToolBar toolBar = new ToolBar();
         Button addButton = new Button("Add Item");
-        addButton.setOnAction(i -> drawAddItemWindow(stockManager));
+        addButton.setOnAction(addItemHandler);
 
         sortOrder.getItems().addAll("Unsorted", "Most Expensive");
         sortOrder.setValue("Unsorted");
