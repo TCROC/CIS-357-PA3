@@ -1,5 +1,4 @@
 /**
- * Note: This class is used for displaying the StockManager.  To see how the requirements are met, please refer to the other classes.
  *
  * Properties:
  * default Stage secondaryWindow: this any window drawn besides the main window.
