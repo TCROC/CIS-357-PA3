@@ -28,8 +28,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -59,10 +57,14 @@ public class Main extends Application {
 
         ToolBar toolBar = new ToolBar();
         Button addButton = new Button("Add Item");
+
+        // Fulfills ActionEvent requirement.
         addButton.setOnAction(addItemHandler);
 
         sortOrder.getItems().addAll("Unsorted", "Most Expensive");
         sortOrder.setValue("Unsorted");
+
+        // Fulfills 'Listener for Observable objects' and 'Lambda expressions' requirements.
         sortOrder.setOnAction(i -> drawItemsPain(sortOrder.getValue()));
 
 
@@ -98,6 +100,7 @@ public class Main extends Application {
     /**
      * Sets up the standard hot keys for the scene provided.
      * @param scene The scene to set up the hot keys for.
+     * Fulfills the 'Key Events' requirement.
      */
     public void initHotKeys(Scene scene){
         // Sets up the hot keys / short cuts
@@ -235,6 +238,7 @@ public class Main extends Application {
         exitTransition.setCycleCount(0);
         exitTransition.setAutoReverse(false);
 
+        // Fulfills the 'Mouse events' and 'Animation' requirements.
         iView.setOnMouseEntered(i -> enterTransition.play());
         iView.setOnMouseExited(i -> exitTransition.play());
         iView.setOnMousePressed(i -> exitTransition.play());
