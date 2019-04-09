@@ -146,7 +146,7 @@ public abstract class StockItem implements Comparable<StockItem>{
 
             if (isAddWindow) {
                 stockManager.addItem(this);
-                main.drawUnsortedItemsPane(stockManager);
+                main.drawItemsPain(main.sortOrder.getValue());
             }
         });
 

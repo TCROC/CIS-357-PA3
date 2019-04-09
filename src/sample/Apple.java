@@ -90,7 +90,7 @@ public class Apple extends Consumable {
 
                     }
                     finally {
-                    main.drawUnsortedItemsPane(stockManager);
+                    main.drawItemsPain(main.sortOrder.getValue());
                 }
             }
         });

@@ -87,7 +87,7 @@ public abstract class Consumable extends StockItem {
 
             if (isAddWindow) {
                 stockManager.addItem(this);
-                main.drawUnsortedItemsPane(stockManager);
+                main.drawItemsPain(main.sortOrder.getValue());
             }
         });
 

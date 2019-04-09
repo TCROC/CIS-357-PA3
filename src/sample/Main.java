@@ -17,25 +17,39 @@
 
 package sample;
 
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.io.File;
 
 public class Main extends Application {
 
     Stage secondaryWindow = null;
     StockManager stockManager = new StockManager();
     ScrollPane itemsPane = new ScrollPane();
+    ComboBox<String> sortOrder = new ComboBox<>();
+
+    Image infoImage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        infoImage = new Image(new File("Icons/baseline_info_black_48dp.png").toURI().toString());
+
         stockManager = new StockManager();
         Pane rootPane = new Pane();
 
@@ -45,7 +59,6 @@ public class Main extends Application {
         Button addButton = new Button("Add Item");
         addButton.setOnAction(i -> drawAddItemWindow(stockManager));
 
-        ComboBox<String> sortOrder = new ComboBox<>();
         sortOrder.getItems().addAll("Unsorted", "Most Expensive");
         sortOrder.setValue("Unsorted");
         sortOrder.setOnAction(i -> drawItemsPain(sortOrder.getValue()));
@@ -61,7 +74,7 @@ public class Main extends Application {
 
         rootPane.getChildren().add(mainVerticalPanel);
 
-        drawUnsortedItemsPane(stockManager);
+        drawItemsPain(sortOrder.getValue());
 
         mainVerticalPanel.getChildren().add(itemsPane);
 
@@ -173,18 +186,7 @@ public class Main extends Application {
         itemsPane.setPrefWidth(500);
 
         for (var stockItem: stockManager.getAllItems()) {
-            HBox box = new HBox(20);
-            box.getChildren().add(new Text(stockItem.getItemName()));
-            Button infoButton = new Button("Item Info");
-            infoButton.setOnAction(i -> drawItemSummaryWindow(stockItem));
-            box.getChildren().add(infoButton);
-            Button removeButton = new Button("Remove Item");
-            removeButton.setOnAction(i -> {
-                stockManager.removeItem(stockItem);
-                drawUnsortedItemsPane(stockManager);
-            });
-            box.getChildren().add(removeButton);
-            itemsListPanel.getChildren().add(box);
+            itemsListPanel.getChildren().add(drawItem(stockItem));
         }
     }
 
@@ -199,18 +201,52 @@ public class Main extends Application {
         itemsPane.setPrefWidth(500);
 
         for (var stockItem: stockManager.getMostExpensiveItems()) {
-            HBox box = new HBox(20);
-            box.getChildren().add(new Text(stockItem.getItemName()));
-            Button infoButton = new Button("Item Info");
-            infoButton.setOnAction(i -> drawItemSummaryWindow(stockItem));
-            box.getChildren().add(infoButton);
-            Button removeButton = new Button("Remove Item");
-            removeButton.setOnAction(i -> {
-                stockManager.removeItem(stockItem);
-                drawUnsortedItemsPane(stockManager);
-            });
-            box.getChildren().add(removeButton);
-            itemsListPanel.getChildren().add(box);
+            itemsListPanel.getChildren().add(drawItem(stockItem));
         }
+    }
+
+    public HBox drawItem(StockItem stockItem){
+        HBox box = new HBox(20);
+        box.getChildren().add(new Text(stockItem.getItemName()));
+
+        //Button infoButton = new Button("Item Info");
+        //infoButton.setOnAction(i -> drawItemSummaryWindow(stockItem));
+        //box.getChildren().add(infoButton);
+
+        ImageView iView = new ImageView(infoImage);
+        iView.setFitHeight(25);
+        iView.setFitWidth(25);
+
+        ScaleTransition enterTransition = new ScaleTransition(Duration.millis(100), iView);
+        enterTransition.setFromX(1);
+        enterTransition.setFromY(1);
+        enterTransition.setToX(1.25);
+        enterTransition.setToY(1.25);
+        enterTransition.setCycleCount(0);
+        enterTransition.setAutoReverse(false);
+
+        ScaleTransition exitTransition = new ScaleTransition(Duration.millis(100), iView);
+        exitTransition.setFromX(1.25);
+        exitTransition.setFromY(1.25);
+        exitTransition.setToX(1);
+        exitTransition.setToY(1);
+        exitTransition.setCycleCount(0);
+        exitTransition.setAutoReverse(false);
+
+        iView.setOnMouseEntered(i -> enterTransition.play());
+        iView.setOnMouseExited(i -> exitTransition.play());
+        iView.setOnMousePressed(i -> exitTransition.play());
+        iView.setOnMouseReleased(i -> {enterTransition.play(); drawItemSummaryWindow(stockItem);});
+
+        box.getChildren().add(iView);
+
+        Button removeButton = new Button("Remove Item");
+        removeButton.setOnAction(i -> {
+            stockManager.removeItem(stockItem);
+            drawItemsPain(sortOrder.getValue());
+        });
+        box.getChildren().add(removeButton);
+
+        return box;
     }
 }

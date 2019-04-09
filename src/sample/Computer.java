@@ -120,7 +120,7 @@ public class Computer extends NonConsumable {
 
                 }
                 finally {
-                    main.drawUnsortedItemsPane(stockManager);
+                    main.drawItemsPain(main.sortOrder.getValue());
                 }
             }
         });
