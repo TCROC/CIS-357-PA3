@@ -12,7 +12,8 @@
  * public void drawItemSummaryWindow(StockItem stockItem): Draws the window which outputs the summary for this particular item.
  * public void drawUnsortedItemsPane(StockManager stockManager): Draws the items currently in the stock manager in the order they exist in the list.
  * public void drawMostExpensiveItemsPane(StockManager stockManager): Draws items sorted in the order from most expensive to least expensive.
- *
+ * public void initHotKeys(Scene scene): Sets up the hot keys for the scene provided.
+ * public HBox drawItem(StockItem stockItem) : Draws the UI to represent this listed StockItem. Returns the HBox the item is represented in.
  */
 
 package sample;
@@ -65,7 +66,7 @@ public class Main extends Application {
         sortOrder.setValue("Unsorted");
 
         // Fulfills 'Listener for Observable objects' and 'Lambda expressions' requirements.
-        sortOrder.setOnAction(i -> drawItemsPain(sortOrder.getValue()));
+        sortOrder.valueProperty().addListener((options, oldValue, newValue) -> drawItemsPain(newValue));
 
 
         toolBar.getItems().addAll(addButton, sortOrder);
@@ -97,11 +98,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    /**
-     * Sets up the standard hot keys for the scene provided.
-     * @param scene The scene to set up the hot keys for.
-     * Fulfills the 'Key Events' requirement.
-     */
     public void initHotKeys(Scene scene){
         // Sets up the hot keys / short cuts
         scene.setOnKeyPressed(i -> {
